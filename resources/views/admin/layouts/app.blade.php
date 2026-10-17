@@ -10,7 +10,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { jakarta: ['Plus Jakarta Sans', 'sans-serif'] },
+                }
+            }
+        }
+    </script>
 </head>
 
 <body class="min-h-screen bg-[#FFF8F1] text-[#4A403A]"
@@ -18,9 +27,10 @@
 
     @php
         $menu = [
-            ['label' => 'Data Lansia', 'route' => 'admin.lansia.index'],
+            ['label' => 'Dashboard',       'route' => 'admin.dashboard'],
+            ['label' => 'Data Lansia',     'route' => 'admin.lansia.index'],
             ['label' => 'Kebutuhan Panti', 'route' => 'admin.kebutuhan.index'],
-            ['label' => 'Pengajuan Donasi', 'route' => 'admin.donasi.index'],
+            ['label' => 'Pengajuan Donasi','route' => 'admin.donasi.index'],
         ];
     @endphp
 
@@ -64,9 +74,17 @@
                         </p>
                     </div>
 
-                    <span class="rounded-full bg-[#F6EBDD] px-4 py-2 text-sm font-medium">
-                        Admin Panti
+                    <span class="rounded-full bg-[#F6EBDD] px-4 py-2 text-sm font-medium text-[#4A403A]">
+                        {{ auth()->user()->nama }}
                     </span>
+
+                    <form method="POST" action="{{ route('logout') }}" class="ml-2">
+                        @csrf
+                        <button type="submit"
+                                class="rounded-full border border-[#D9C4B3] px-4 py-2 text-sm font-medium text-[#7A6E66] transition hover:bg-[#F6EBDD]">
+                            Keluar
+                        </button>
+                    </form>
                 </div>
 
                 <nav class="mt-4 flex flex-wrap gap-2 lg:hidden">
