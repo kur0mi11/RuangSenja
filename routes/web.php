@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\LansiaController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\DonasiController;
 
 // Halaman publik
 Route::get('/', function () {
@@ -38,6 +39,22 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // CRUD Data Lansia — paksa parameter tetap {lansia}, bukan {lansium}
     Route::resource('lansia', LansiaController::class)
         ->parameters(['lansia' => 'lansia']);
+
+        //nampilin daftar donasi
+    Route::get('/donasi', [DonasiController::class, 'index'])
+        ->name('donasi.index');
+
+    //nampilin detail donasi
+    Route::get('/donasi/{donasi}', [DonasiController::class, 'show'])
+        ->name('donasi.show');
+
+    //nerima atau nolak donasi
+    Route::patch('/donasi/{donasi}/proses', [DonasiController::class, 'proses'])
+        ->name('donasi.proses');
+
+    //nampilin bukti transfer donasi
+    Route::get('/donasi/{donasi}/bukti-transfer', [DonasiController::class, 'buktiTransfer'])
+        ->name('donasi.bukti-transfer');
 });
 
 // Donatur
