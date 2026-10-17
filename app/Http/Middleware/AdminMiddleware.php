@@ -13,8 +13,10 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check() || !auth()->user()->isAdmin()) {
-            abort(403, 'Akses ditolak. Halaman ini hanya untuk admin.');
+        $pengguna = auth()->user();
+
+        if (!$pengguna || !$pengguna->isAdmin() || !$pengguna->isAktif()) {
+            abort(403, 'Akses ditolak. Halaman ini hanya untuk admin dengan akun aktif.');
         }
 
         return $next($request);
