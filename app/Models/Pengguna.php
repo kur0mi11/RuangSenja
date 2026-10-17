@@ -45,6 +45,10 @@ class Pengguna extends Authenticatable
         return $this->password_hash;
     }
 
+    public function getAuthPasswordName(): string {
+        return 'password_hash';
+    }
+
     /**
      * Setter agar assignment pada key 'password' otomatis mengisi 'password_hash'.
      */
