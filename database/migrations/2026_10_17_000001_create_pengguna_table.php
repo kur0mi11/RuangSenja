@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nama', 100);
             $table->string('email', 150)->unique();
             $table->string('password_hash', 255);
+            $table->rememberToken();
             $table->string('no_hp', 20)->nullable();
             $table->text('alamat')->nullable();
             $table->enum('role', ['admin', 'donatur'])->default('donatur');
