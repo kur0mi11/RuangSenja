@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\LansiaController;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Route;
 
 // Halaman publik
 Route::get('/', function () {
@@ -22,14 +23,24 @@ Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout')
     ->middleware('auth');
 
-// Dashboard Admin
+// Admin
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+
+    // Dashboard
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('dashboard');
+
+    // Foto lansia (private, harus sebelum resource agar tidak tertimpa)
+    Route::get('/lansia/{lansia}/foto', [LansiaController::class, 'foto'])
+        ->name('lansia.foto');
+
+    // CRUD Data Lansia — paksa parameter tetap {lansia}, bukan {lansium}
+    Route::resource('lansia', LansiaController::class)
+        ->parameters(['lansia' => 'lansia']);
 });
 
-// Dashboard Donatur
+// Donatur
 Route::middleware(['auth', 'donatur'])->prefix('donatur')->name('donatur.')->group(function () {
     Route::get('/dashboard', function () {
         return view('donatur.dashboard');
