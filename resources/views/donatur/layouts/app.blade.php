@@ -86,6 +86,20 @@
                 @endif
             </div>
 
+            {{-- Error validasi form --}}
+            @if ($errors->any())
+                <div class="mx-auto w-full max-w-7xl px-6 pb-2">
+                    <div class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert">
+                        <p class="font-bold">Periksa kembali data yang dikirim:</p>
+                        <ul class="mt-2 list-inside list-disc">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
+
             {{-- Konten halaman --}}
             <main class="mx-auto w-full max-w-7xl flex-1 px-6 pb-10 pt-2 lg:px-8">
                 @yield('content')
@@ -93,6 +107,36 @@
 
         </div>
     </div>
+
+    {{-- Pop-up konfirmasi keluar --}}
+    <div id="modal-logout" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 p-4"
+         onclick="if (event.target === this) tutupModalLogout()">
+        <div class="w-full max-w-sm rounded-2xl bg-[#FFFDF9] p-6 text-center shadow-xl" role="dialog" aria-modal="true" aria-labelledby="judul-logout">
+            <h2 id="judul-logout" class="text-xl font-extrabold text-[#0A4F52]">Keluar dari RuangSenja?</h2>
+            <p class="mt-2 text-sm text-[#7A6E66]">Anda perlu masuk lagi untuk mengakses akun Anda.</p>
+            <div class="mt-6 flex justify-center gap-3">
+                <button type="button" onclick="tutupModalLogout()"
+                        class="rounded-xl border border-[#D9C4B3] px-5 py-3 text-sm font-semibold hover:bg-[#F6EBDD]">Batal</button>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="rounded-xl bg-[#D96C6C] px-5 py-3 text-sm font-bold text-white hover:opacity-90">Ya, Keluar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        function bukaModalLogout() {
+            const m = document.getElementById('modal-logout');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+        }
+        function tutupModalLogout() {
+            const m = document.getElementById('modal-logout');
+            m.classList.add('hidden');
+            m.classList.remove('flex');
+        }
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') tutupModalLogout(); });
+    </script>
 
 </body>
 </html>
