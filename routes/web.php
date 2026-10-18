@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\KebutuhanPantiController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DonasiController;
+use App\Http\Controllers\Admin\DashboardController;
 
 // Halaman publik
 Route::get('/', function () {
@@ -28,10 +29,9 @@ Route::post('/logout', [AuthController::class, 'logout'])
 // Admin
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
 
-    // Dashboard
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    //nampilin dashboard admin
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard');
 
     // Foto lansia (private, harus sebelum resource agar tidak tertimpa)
     Route::get('/lansia/{lansia}/foto', [LansiaController::class, 'foto'])
@@ -45,7 +45,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('kebutuhan', KebutuhanPantiController::class)
         ->parameters(['kebutuhan' => 'kebutuhan']);
 
-        //nampilin daftar donasi
+    //nampilin daftar donasi
     Route::get('/donasi', [DonasiController::class, 'index'])
         ->name('donasi.index');
 

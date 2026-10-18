@@ -16,9 +16,6 @@
             <h1 class="text-lg font-bold text-[#0F6B6F] lg:text-xl">
                 @yield('heading', 'Panel Admin')
             </h1>
-            <p class="hidden text-xs text-[#7A6E66] sm:block">
-                Sistem Informasi Donasi Panti Jompo
-            </p>
         </div>
 
         {{-- Kanan: avatar nama + logout --}}
