@@ -4,6 +4,8 @@
         ['label' => 'Kebutuhan Panti', 'route' => 'donatur.kebutuhan.index'],
         ['label' => 'Ajukan Donasi',   'route' => 'donatur.donasi.create'],
         ['label' => 'Riwayat Donasi',  'route' => 'donatur.donasi.index'],
+        ['label' => 'FAQ',             'route' => 'donatur.faq'],
+        ['label' => 'Profil',          'route' => 'donatur.profil.index'],
     ];
 @endphp
 
@@ -14,7 +16,7 @@
         {{-- Judul halaman --}}
         <div>
             <h1 class="text-lg font-bold text-[#0F6B6F] lg:text-xl">
-                @yield('heading', 'Portal Donatur')
+                @hasSection('heading') @yield('heading') @else @yield('title', 'Portal Donatur') @endif
             </h1>
             <p class="hidden text-xs text-[#7A6E66] sm:block">
                 Sistem Informasi Donasi Panti Jompo
@@ -23,20 +25,17 @@
 
         {{-- Kanan: avatar nama + logout --}}
         <div class="flex items-center gap-3">
-            <span class="hidden rounded-full bg-[#FFF0E5] px-4 py-1.5 text-sm font-medium text-[#4A403A] sm:inline-flex items-center gap-2">
+            <a href="{{ route('donatur.profil.index') }}" title="Lihat profil" class="hidden rounded-full bg-[#FFF0E5] px-4 py-1.5 text-sm font-medium text-[#4A403A] hover:bg-[#F9C5A8] sm:inline-flex items-center gap-2">
                 <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#F47C4C] text-[10px] font-bold text-white">
                     {{ strtoupper(substr(auth()->user()->nama ?? 'D', 0, 1)) }}
                 </span>
                 {{ auth()->user()->nama ?? 'Donatur' }}
-            </span>
+            </a>
 
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit"
-                        class="rounded-full border border-[#D9C4B3] px-4 py-1.5 text-sm font-medium text-[#7A6E66] transition hover:bg-[#F6EBDD] hover:text-[#4A403A]">
-                    Keluar
-                </button>
-            </form>
+            <button type="button" onclick="bukaModalLogout()"
+                    class="rounded-full border border-[#D9C4B3] px-4 py-1.5 text-sm font-medium text-[#7A6E66] transition hover:bg-[#F6EBDD] hover:text-[#4A403A]">
+                Keluar
+            </button>
         </div>
     </div>
 

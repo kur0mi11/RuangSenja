@@ -32,14 +32,21 @@ class DonasiController extends Controller
         return view('donatur.kebutuhan.index', compact('kebutuhan'));
     }
 
-    public function index(): View
+    public function index(Request $request): View
     {
+        $status = $request->query('status');
+        if (!in_array($status, ['menunggu', 'diterima', 'ditolak'], true)) {
+            $status = null;
+        }
+
         $donasi = Donasi::query()
             ->where('donatur_id', auth()->id())
+            ->when($status, fn (Builder $query) => $query->where('status', $status))
             ->latest()
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
-        return view('donatur.donasi.index', compact('donasi'));
+        return view('donatur.donasi.index', compact('donasi', 'status'));
     }
 
     public function create(): View
@@ -79,7 +86,15 @@ class DonasiController extends Controller
                 Storage::disk('local')->delete($buktiTransfer);
             }
 
-            throw $exception;
+            if ($exception instanceof ValidationException) {
+                throw $exception;
+            }
+
+            report($exception);
+
+            return back()
+                ->withInput()
+                ->with('error', 'Pengajuan donasi gagal disimpan. Silakan coba lagi.');
         }
 
         return redirect()
@@ -165,7 +180,15 @@ class DonasiController extends Controller
                 Storage::disk('local')->delete($newProof);
             }
 
-            throw $exception;
+            if ($exception instanceof ValidationException) {
+                throw $exception;
+            }
+
+            report($exception);
+
+            return back()
+                ->withInput()
+                ->with('error', 'Pengajuan donasi gagal diperbarui. Silakan coba lagi.');
         }
 
         if ($oldProof !== null && $proofPath !== $oldProof) {

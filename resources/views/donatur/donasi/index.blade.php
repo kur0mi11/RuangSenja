@@ -11,6 +11,15 @@
         <a href="{{ route('donatur.donasi.create') }}" class="rounded-xl bg-[#0F6B6F] px-5 py-3 text-sm font-bold text-white hover:bg-[#0A4F52]">Ajukan donasi</a>
     </div>
 
+    <div class="mb-4 flex flex-wrap gap-2 text-sm">
+        @foreach ([null => 'Semua', 'menunggu' => 'Menunggu', 'diterima' => 'Diterima', 'ditolak' => 'Ditolak'] as $nilai => $label)
+            <a href="{{ route('donatur.donasi.index', $nilai ? ['status' => $nilai] : []) }}"
+               class="rounded-full border px-4 py-2 font-semibold {{ $status === $nilai ? 'border-[#0F6B6F] bg-[#0F6B6F] text-white' : 'border-[#D9C4B3] bg-[#FFFDF9] hover:bg-[#F6EBDD]' }}">
+                {{ $label }}
+            </a>
+        @endforeach
+    </div>
+
     <div class="overflow-hidden rounded-2xl border border-[#E8D9C8] bg-[#FFFDF9]">
         <div class="overflow-x-auto">
             <table class="w-full min-w-[680px] text-left text-sm">
@@ -49,7 +58,7 @@
                             </td>
                         </tr>
                     @empty
-                        <tr><td colspan="5" class="px-5 py-12 text-center text-[#7A6E66]">Belum ada pengajuan donasi.</td></tr>
+                        <tr><td colspan="5" class="px-5 py-12 text-center text-[#7A6E66]">{{ $status ? 'Tidak ada donasi dengan status ini.' : 'Belum ada pengajuan donasi.' }}</td></tr>
                     @endforelse
                 </tbody>
             </table>

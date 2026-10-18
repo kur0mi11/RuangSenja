@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Donatur\DashboardController as DonaturDashboardController;
 use App\Http\Controllers\Donatur\DonasiController as DonaturDonasiController;
+use App\Http\Controllers\Donatur\ProfilController as DonaturProfilController;
 use Illuminate\Support\Facades\Route;
 
 // Halaman publik
@@ -73,24 +74,17 @@ Route::middleware(['auth', 'donatur'])->prefix('donatur')->name('donatur.')->gro
     Route::get('/kebutuhan', [DonaturDonasiController::class, 'kebutuhan'])
         ->name('kebutuhan.index');
 
-    Route::get('/donasi', [DonaturDonasiController::class, 'index'])
-        ->name('donasi.index');
+    Route::get('/donasi', [DonaturDonasiController::class, 'index'])->name('donasi.index');
+    Route::get('/donasi/create', [DonaturDonasiController::class, 'create'])->name('donasi.create');
+    Route::post('/donasi', [DonaturDonasiController::class, 'store'])->name('donasi.store');
+    Route::get('/donasi/{donasi}/edit', [DonaturDonasiController::class, 'edit'])->name('donasi.edit');
+    Route::put('/donasi/{donasi}', [DonaturDonasiController::class, 'update'])->name('donasi.update');
+    Route::delete('/donasi/{donasi}', [DonaturDonasiController::class, 'destroy'])->name('donasi.destroy');
+    Route::get('/donasi/{donasi}', [DonaturDonasiController::class, 'show'])->name('donasi.show');
 
-    Route::get('/donasi/create', [DonaturDonasiController::class, 'create'])
-        ->name('donasi.create');
-
-    Route::post('/donasi', [DonaturDonasiController::class, 'store'])
-        ->name('donasi.store');
-
-    Route::get('/donasi/{donasi}/edit', [DonaturDonasiController::class, 'edit'])
-        ->name('donasi.edit');
-
-    Route::put('/donasi/{donasi}', [DonaturDonasiController::class, 'update'])
-        ->name('donasi.update');
-
-    Route::delete('/donasi/{donasi}', [DonaturDonasiController::class, 'destroy'])
-        ->name('donasi.destroy');
-
-    Route::get('/donasi/{donasi}', [DonaturDonasiController::class, 'show'])
-        ->name('donasi.show');
+    // Profil, ganti password, dan FAQ
+    Route::get('/profil', [DonaturProfilController::class, 'index'])->name('profil.index');
+    Route::put('/profil', [DonaturProfilController::class, 'update'])->name('profil.update');
+    Route::put('/profil/password', [DonaturProfilController::class, 'updatePassword'])->name('profil.password');
+    Route::get('/faq', [DonaturProfilController::class, 'faq'])->name('faq');
 });

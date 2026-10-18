@@ -20,12 +20,17 @@
             'route'  => 'donatur.donasi.index',
             'icon'   => '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
         ],
+        [
+            'label'  => 'FAQ',
+            'route'  => 'donatur.faq',
+            'icon'   => '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+        ],
     ];
 @endphp
 
 {{-- ─── Sidebar Desktop ─────────────────────────────────── --}}
 <aside id="sidebar-donatur"
-       class="hidden lg:flex lg:w-60 lg:flex-col lg:flex-shrink-0 min-h-screen bg-[#0A4F52] text-white">
+       class="hidden lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-60 lg:flex-col lg:flex-shrink-0 lg:self-start bg-[#0A4F52] text-white">
 
     {{-- Logo --}}
     <div class="flex items-center gap-3 px-6 py-7 border-b border-white/10">
@@ -39,7 +44,7 @@
     </div>
 
     {{-- Nav --}}
-    <nav class="flex flex-col gap-1 px-3 py-4 flex-1" aria-label="Menu donatur">
+    <nav class="flex flex-1 flex-col gap-1 overflow-y-auto px-3 py-4" aria-label="Menu donatur">
         <p class="mb-2 px-3 text-[10px] font-semibold uppercase tracking-widest text-white/35">
             Menu Utama
         </p>
@@ -75,7 +80,8 @@
 
     {{-- User + logout --}}
     <div class="border-t border-white/10 px-3 py-4">
-        <div class="mb-2 flex items-center gap-3 rounded-xl bg-white/5 px-3 py-3">
+        <a href="{{ route('donatur.profil.index') }}" title="Lihat profil"
+           class="mb-2 flex items-center gap-3 rounded-xl px-3 py-3 transition {{ request()->routeIs('donatur.profil.*') ? 'bg-[#0F6B6F]' : 'bg-white/5 hover:bg-white/10' }}">
             <div class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#F47C4C]/30 text-xs font-bold text-[#F47C4C]">
                 {{ strtoupper(substr(auth()->user()->nama ?? 'D', 0, 1)) }}
             </div>
@@ -83,17 +89,16 @@
                 <p class="truncate text-sm font-semibold text-white">{{ auth()->user()->nama ?? 'Donatur' }}</p>
                 <p class="text-[11px] text-white/45">Donatur</p>
             </div>
-        </div>
+        </a>
 
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit"
+        <div>
+            <button type="button" onclick="bukaModalLogout()"
                     class="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-white/60 transition hover:bg-[#D96C6C]/20 hover:text-[#D96C6C]">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                 </svg>
                 Keluar
             </button>
-        </form>
+        </div>
     </div>
 </aside>
