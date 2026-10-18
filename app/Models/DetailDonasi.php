@@ -24,13 +24,11 @@ class DetailDonasi extends Model
         ];
     }
 
-    //pengajuan donasi induk
     public function donasi(): BelongsTo
     {
         return $this->belongsTo(Donasi::class, 'donasi_id');
     }
 
-    //kebutuhan panti yang didonasikan
     public function kebutuhan(): BelongsTo
     {
         return $this->belongsTo(KebutuhanPanti::class, 'kebutuhan_id');

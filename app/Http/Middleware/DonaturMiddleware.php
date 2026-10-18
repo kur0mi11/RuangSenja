@@ -13,8 +13,10 @@ class DonaturMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check() || !auth()->user()->isDonatur()) {
-            abort(403, 'Akses ditolak. Halaman ini hanya untuk donatur.');
+        $pengguna = auth()->user();
+
+        if (!$pengguna || !$pengguna->isDonatur() || !$pengguna->isAktif()) {
+            abort(403, 'Akses ditolak. Halaman ini hanya untuk donatur dengan akun aktif.');
         }
 
         return $next($request);
