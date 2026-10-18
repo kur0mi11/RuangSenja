@@ -66,9 +66,9 @@
         <p class="sidebar-label">Menu Admin</p>
         <ul class="sidebar-nav">
             <li><a href="{{ route('admin.dashboard') }}" class="active">Dashboard</a></li>
-            <li><a href="#">Data Lansia</a></li>
-            <li><a href="#">Kebutuhan Panti</a></li>
-            <li><a href="#">Pengajuan Donasi</a></li>
+            <li><a href="{{ route('admin.lansia.index') }}">Data Lansia</a></li>
+            <li><a href="{{ route('admin.kebutuhan.index') }}">Kebutuhan Panti</a></li>
+            <li><a href="{{ route('admin.donasi.index') }}">Pengajuan Donasi</a></li>
         </ul>
 
         <div class="sidebar-logout">

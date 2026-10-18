@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\LansiaController;
+use App\Http\Controllers\Admin\KebutuhanPantiController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DonasiController;
@@ -39,6 +40,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // CRUD Data Lansia — paksa parameter tetap {lansia}, bukan {lansium}
     Route::resource('lansia', LansiaController::class)
         ->parameters(['lansia' => 'lansia']);
+
+    // CRUD Kebutuhan Panti
+    Route::resource('kebutuhan', KebutuhanPantiController::class)
+        ->parameters(['kebutuhan' => 'kebutuhan']);
 
         //nampilin daftar donasi
     Route::get('/donasi', [DonasiController::class, 'index'])
