@@ -2,12 +2,13 @@
 
 use App\Http\Controllers\Admin\LansiaController;
 use App\Http\Controllers\Admin\KebutuhanPantiController;
-use App\Http\Controllers\AuthController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DonasiController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Donatur\DashboardController as DonaturDashboardController;
 use App\Http\Controllers\Donatur\DonasiController as DonaturDonasiController;
 use App\Http\Controllers\Donatur\ProfilController as DonaturProfilController;
+use Illuminate\Support\Facades\Route;
 
 // Halaman publik
 Route::get('/', function () {
@@ -31,10 +32,9 @@ Route::post('/logout', [AuthController::class, 'logout'])
 // Admin
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
 
-    // Dashboard
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    //nampilin dashboard admin
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard');
 
     // Foto lansia (private, harus sebelum resource agar tidak tertimpa)
     Route::get('/lansia/{lansia}/foto', [LansiaController::class, 'foto'])
@@ -48,7 +48,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('kebutuhan', KebutuhanPantiController::class)
         ->parameters(['kebutuhan' => 'kebutuhan']);
 
-        //nampilin daftar donasi
+    //nampilin daftar donasi
     Route::get('/donasi', [DonasiController::class, 'index'])
         ->name('donasi.index');
 
@@ -67,7 +67,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 // Donatur
 Route::middleware(['auth', 'donatur'])->prefix('donatur')->name('donatur.')->group(function () {
-    Route::get('/dashboard', DonaturDashboardController::class)->name('dashboard');
+
+    Route::get('/dashboard', DonaturDashboardController::class)
+        ->name('dashboard');
+
     Route::get('/kebutuhan', [DonaturDonasiController::class, 'kebutuhan'])
         ->name('kebutuhan.index');
 
