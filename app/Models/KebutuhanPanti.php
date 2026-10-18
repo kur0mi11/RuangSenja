@@ -33,8 +33,33 @@ class KebutuhanPanti extends Model
         return $this->belongsTo(KategoriKebutuhan::class, 'kategori_id');
     }
 
+    public function dibuatOleh(): BelongsTo
+    {
+        return $this->belongsTo(Pengguna::class, 'dibuat_oleh');
+    }
+
     public function detailDonasi(): HasMany
     {
         return $this->hasMany(DetailDonasi::class, 'kebutuhan_id');
+    }
+
+    /**
+     * Hitung jumlah yang sudah terpenuhi berdasarkan detail donasi berstatus Diterima.
+     */
+    public function jumlahTerpenuhi(): float
+    {
+        return (float) $this->detailDonasi()
+            ->whereHas('donasi', fn ($q) => $q->where('status', 'diterima'))
+            ->sum('jumlah');
+    }
+
+    /**
+     * Cek apakah kebutuhan memiliki pengajuan yang masih Menunggu.
+     */
+    public function punyaPengajuanMenunggu(): bool
+    {
+        return $this->detailDonasi()
+            ->whereHas('donasi', fn ($q) => $q->where('status', 'menunggu'))
+            ->exists();
     }
 }
