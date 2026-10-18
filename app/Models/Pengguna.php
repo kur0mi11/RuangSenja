@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -79,5 +80,10 @@ class Pengguna extends Authenticatable
     public function isAktif(): bool
     {
         return $this->status_akun === 'aktif';
+    }
+
+    public function donasi(): HasMany
+    {
+        return $this->hasMany(Donasi::class, 'donatur_id');
     }
 }
