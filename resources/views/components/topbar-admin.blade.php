@@ -18,14 +18,22 @@
             </h1>
         </div>
 
-        {{-- Kanan: avatar nama + logout --}}
+        {{-- Kanan: link profil + logout --}}
         <div class="flex items-center gap-3">
-            <span class="hidden rounded-full bg-[#F6EBDD] px-4 py-1.5 text-sm font-medium text-[#4A403A] sm:inline-flex items-center gap-2">
+            @php
+                try { $topbarProfilUrl = route('admin.profil.index'); } catch (\Exception $e) { $topbarProfilUrl = '#'; }
+                $topbarProfilActive = request()->routeIs('admin.profil.*');
+            @endphp
+            <a href="{{ $topbarProfilUrl }}"
+               class="hidden items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium transition sm:inline-flex
+                      {{ $topbarProfilActive
+                           ? 'bg-[#CFE8E6] text-[#0A4F52]'
+                           : 'bg-[#F6EBDD] text-[#4A403A] hover:bg-[#CFE8E6]' }}">
                 <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#0F6B6F] text-[10px] font-bold text-white">
                     {{ strtoupper(substr(auth()->user()->nama ?? 'A', 0, 1)) }}
                 </span>
                 {{ auth()->user()->nama ?? 'Admin' }}
-            </span>
+            </a>
 
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
@@ -54,5 +62,17 @@
                 {{ $item['label'] }}
             </a>
         @endforeach
+        {{-- Profil di mobile nav --}}
+        @php
+            $profilMobileActive = request()->routeIs('admin.profil.*');
+        @endphp
+        <a href="{{ $topbarProfilUrl ?? route('admin.profil.index') }}"
+           class="flex-shrink-0 rounded-lg px-3 py-1.5 text-xs font-semibold transition
+                  {{ $profilMobileActive
+                       ? 'bg-[#0F6B6F] text-white'
+                       : 'bg-[#F6EBDD] text-[#4A403A] hover:bg-[#CFE8E6]' }}"
+           aria-current="{{ $profilMobileActive ? 'page' : 'false' }}">
+            Profil
+        </a>
     </nav>
 </header>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -352,6 +352,51 @@
             font-size: 14px;
             color: var(--color-text-secondary);
             margin-top: var(--space-6);
+        }
+
+        /* ===== FLASH ALERT / NOTIFIKASI ===== */
+        .alert {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px 18px;
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-5);
+            font-size: 14px;
+            line-height: 1.5;
+            animation: alertFadeIn 0.35s ease;
+        }
+
+        @keyframes alertFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-icon {
+            font-size: 20px;
+            line-height: 1;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .alert-success {
+            background-color: #ECFDF5;
+            border: 1px solid #A7F3D0;
+            color: #065F46;
+        }
+
+        .alert-danger {
+            background-color: #FEF2F2;
+            border: 1px solid #FECACA;
+            color: #991B1B;
         }
 
         /* ===== RESPONSIVE ===== */

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\LansiaController;
 use App\Http\Controllers\Admin\KebutuhanPantiController;
 use App\Http\Controllers\Admin\DonasiController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProfilController as AdminProfilController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Donatur\DashboardController as DonaturDashboardController;
 use App\Http\Controllers\Donatur\DonasiController as DonaturDonasiController;
@@ -63,6 +64,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     //nampilin bukti transfer donasi
     Route::get('/donasi/{donasi}/bukti-transfer', [DonasiController::class, 'buktiTransfer'])
         ->name('donasi.bukti-transfer');
+
+    // Profil admin
+    Route::get('/profil', [AdminProfilController::class, 'index'])->name('profil.index');
+    Route::put('/profil', [AdminProfilController::class, 'update'])->name('profil.update');
+    Route::put('/profil/password', [AdminProfilController::class, 'updatePassword'])->name('profil.password');
 });
 
 // Donatur

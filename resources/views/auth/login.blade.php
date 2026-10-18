@@ -1,4 +1,4 @@
-﻿@extends('auth.layout')
+@extends('auth.layout')
 
 @section('title', 'Masuk')
 @section('meta_description', 'Masuk ke akun RuangSenja Anda untuk mengelola donasi dan kebutuhan panti jompo.')
@@ -9,7 +9,7 @@
     <div class="auth-brand">
         <div class="auth-brand-inner">
             <div class="auth-logo">
-                <div class="auth-logo-icon">🌇</div>
+                <div class="auth-logo-icon">RS</div>
                 <span class="auth-logo-text">RuangSenja</span>
             </div>
             <p class="auth-brand-eyebrow">Platform Donasi Panti Jompo</p>
@@ -21,15 +21,21 @@
             </p>
             <div class="auth-brand-stats">
                 <div class="auth-stat">
-                    <div class="auth-stat-number">❤️</div>
+                    <div class="auth-stat-number">
+                        <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg> -->
+                    </div>
                     <div class="auth-stat-label">Penuh Empati</div>
                 </div>
                 <div class="auth-stat">
-                    <div class="auth-stat-number">🔒</div>
-                    <div class="auth-stat-label">Aman & Terpercaya</div>
+                    <div class="auth-stat-number">
+                        <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg> -->
+                    </div>
+                    <div class="auth-stat-label">Aman &amp; Terpercaya</div>
                 </div>
                 <div class="auth-stat">
-                    <div class="auth-stat-number">✅</div>
+                    <div class="auth-stat-number">
+                        <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> -->
+                    </div>
                     <div class="auth-stat-label">Transparan</div>
                 </div>
             </div>
@@ -47,13 +53,21 @@
             {{-- Flash messages --}}
             @if (session('success'))
                 <div class="alert alert-success" role="alert">
-                    <span>✓</span> {{ session('success') }}
+                    <span class="alert-icon">🎉</span>
+                    <div>
+                        <strong style="display:block; font-weight:700; margin-bottom:2px;">Aksi Berhasil!</strong>
+                        <span>{{ session('success') }}</span>
+                    </div>
                 </div>
             @endif
 
             @if ($errors->has('email') && !$errors->has('nama'))
                 <div class="alert alert-danger" role="alert">
-                    <span>✕</span> {{ $errors->first('email') }}
+                    <span class="alert-icon">⚠️</span>
+                    <div>
+                        <strong style="display:block; font-weight:700; margin-bottom:2px;">Gagal Masuk</strong>
+                        <span>{{ $errors->first('email') }}</span>
+                    </div>
                 </div>
             @endif
 
