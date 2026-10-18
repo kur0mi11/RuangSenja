@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\LansiaController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DonasiController;
+use App\Http\Controllers\Donatur\DashboardController as DonaturDashboardController;
+use App\Http\Controllers\Donatur\DonasiController as DonaturDonasiController;
 
 // Halaman publik
 Route::get('/', function () {
@@ -59,7 +61,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 // Donatur
 Route::middleware(['auth', 'donatur'])->prefix('donatur')->name('donatur.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('donatur.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', DonaturDashboardController::class)->name('dashboard');
+    Route::get('/kebutuhan', [DonaturDonasiController::class, 'kebutuhan'])
+        ->name('kebutuhan.index');
+
+    Route::get('/donasi', [DonaturDonasiController::class, 'index'])->name('donasi.index');
+    Route::get('/donasi/create', [DonaturDonasiController::class, 'create'])->name('donasi.create');
+    Route::post('/donasi', [DonaturDonasiController::class, 'store'])->name('donasi.store');
+    Route::get('/donasi/{donasi}/edit', [DonaturDonasiController::class, 'edit'])->name('donasi.edit');
+    Route::put('/donasi/{donasi}', [DonaturDonasiController::class, 'update'])->name('donasi.update');
+    Route::delete('/donasi/{donasi}', [DonaturDonasiController::class, 'destroy'])->name('donasi.destroy');
+    Route::get('/donasi/{donasi}', [DonaturDonasiController::class, 'show'])->name('donasi.show');
 });

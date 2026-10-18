@@ -18,6 +18,7 @@ class Donasi extends Model
         'metode_donasi',
         'bukti_transfer',
         'catatan_donatur',
+        'status',
     ];
 
     protected function casts(): array
